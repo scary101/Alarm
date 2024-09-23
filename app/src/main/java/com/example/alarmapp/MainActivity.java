@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             if (alarmManager.canScheduleExactAlarms()) {
                 setAlarm();
             } else {
-                Toast.makeText(this, "Please allow the app to schedule exact alarms.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Пожайлуйста, добавтье разрешение!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 startActivity(intent);
             }
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAlarm() {
-        // Расчет времени срабатывания будильника
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinute);
@@ -76,10 +75,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cancelAlarm() {
-        // Отмена будильника
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         alarmManager.cancel(pendingIntent);
+        AlarmReceiver.stopAlarm();
         Toast.makeText(this, "Будильник отменён", Toast.LENGTH_SHORT).show();
     }
+
 }
